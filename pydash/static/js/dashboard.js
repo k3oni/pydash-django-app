@@ -100,31 +100,31 @@ function get_os_data(url, element) {
 var dashboard = {};
 
 dashboard.getUptime = function () {
-    get_os_data('/info/uptime/', "#get-uptime");
+    get_os_data(pydashUrls['uptime'], "#get-uptime");
 };
 
 dashboard.getOSname = function () {
-    get_os_data('/info/platform/osname/', "#get-osname");
+    get_os_data( pydashUrls['platform'] + 'osname/', "#get-osname");
 };
 
 dashboard.getHostname = function () {
-    get_os_data('/info/platform/hostname/', "#get-hostname");
+    get_os_data( pydashUrls['platform'] + 'hostname/', "#get-hostname");
 };
 
 dashboard.getKernel = function () {
-    get_os_data('/info/platform/kernel/', "#get-kernel");
+    get_os_data( pydashUrls['platform'] + 'kernel/', "#get-kernel");
 };
 
 dashboard.getCPUcount = function () {
-    get_os_data('/info/getcpus/count/', "#get-cpucount");
+    get_os_data( pydashUrls['getcpus'] + 'count/', "#get-cpucount");
 };
 
 dashboard.getCPUtype = function () {
-    get_os_data('/info/getcpus/type/', "#get-cputype");
+    get_os_data( pydashUrls['getcpus'] + 'type/', "#get-cputype");
 };
 
 dashboard.getDisk = function () {
-    $.getJSON('/info/getdisk/', function (data) {
+    $.getJSON( pydashUrls['getdisk'], function (data) {
         destroy_dataTable("get_disk");
         var $filterPs = $("#filter-ps");
         $filterPs.val("").off("keyup");
@@ -151,7 +151,7 @@ dashboard.getDisk = function () {
 };
 
 dashboard.getUsers = function () {
-    $.getJSON('/info/getusers/', function (data) {
+    $.getJSON( pydashUrls['getusers'], function (data) {
         destroy_dataTable("get_users");
         var $filterPs = $("#filter-ps");
         $filterPs.val("").off("keyup");
@@ -179,7 +179,7 @@ dashboard.getUsers = function () {
 };
 
 dashboard.getNetstat = function () {
-    $.getJSON('/info/getnetstat/', function (data) {
+    $.getJSON( pydashUrls['getnetstat'], function (data) {
         destroy_dataTable("get_netstat");
         var $filterPs = $("#filter-ps");
         $filterPs.val("").off("keyup");
@@ -205,7 +205,7 @@ dashboard.getNetstat = function () {
 };
 
 dashboard.getProc = function () {
-    $.getJSON('/info/proc/', function (data) {
+    $.getJSON( pydashUrls['getproc'], function (data) {
         destroy_dataTable("get_proc");
         var $filterPs = $("#filter-ps");
         $filterPs.val("").off("keyup");
@@ -238,7 +238,7 @@ dashboard.getProc = function () {
 };
 
 dashboard.getIps = function () {
-    $.getJSON('/info/getips/', function (data) {
+    $.getJSON( pydashUrls['getips'], function (data) {
         destroy_dataTable("get_ips");
         var $filterPs = $("#filter-ps");
         $filterPs.val("").off("keyup");
