@@ -126,7 +126,7 @@ It might work under others, but it hasn't been tested yet.
 License
 =======
 
-**[MIT](https://github.com/k3oni/pydash/blob/master/LICENSE.md)**
+**[MIT](https://github.com/k3oni/pydash-django-app/blob/master/LICENSE.md)**
 
 
 
