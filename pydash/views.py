@@ -19,27 +19,60 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
 import json
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse
+from django.template import RequestContext
 
-from main.views import *
-from pydash.settings import TIME_JS_REFRESH, TIME_JS_REFRESH_LONG, TIME_JS_REFRESH_NET
-
-
-time_refresh = TIME_JS_REFRESH
-time_refresh_long = TIME_JS_REFRESH_LONG
-time_refresh_net = TIME_JS_REFRESH_NET
+from settings import (TIME_JS_REFRESH, TIME_JS_REFRESH_LONG,
+                      TIME_JS_REFRESH_NET, _VERSION)
+import services
+import urls
 
 
-@login_required(login_url='/login/')
+def get_pydash_urls():
+    results = dict()
+    for url_pattern in urls.urlpatterns:
+        name = url_pattern.name
+        try:
+        # Works for non regex patterns
+            results[name] = reverse(name)
+        except Exception:
+        # Get relative url prefix of regex patterns
+
+        # Hacky solution but it works.
+        # E.g. reverse('platform', args=[0])[:-2] -> /info/platform/
+        #      reverse('getcpus', args[0])[:-2] -> /info/getcpus/
+            results[name] = reverse(name, args=[0])[:-2]
+    return results
+
+
+@login_required(login_url=reverse_lazy('login'))
+def index(request):
+    """
+
+    Index page.
+
+    """
+    pydash_urls = get_pydash_urls()
+    return render_to_response('main.html', {'time_refresh': TIME_JS_REFRESH,
+                                            'time_refresh_long': TIME_JS_REFRESH_LONG,
+                                            'time_refresh_net': TIME_JS_REFRESH_NET,
+                                            'version': _VERSION,
+                                            'pydashUrls': pydash_urls},
+                              context_instance=RequestContext(request))
+
+
+@login_required(login_url=reverse_lazy('login'))
 def getnetstat(request):
     """
     Return netstat output
     """
     try:
-        net_stat = get_netstat()
+        net_stat = services.get_netstat()
     except Exception:
         net_stat = None
 
@@ -50,12 +83,12 @@ def getnetstat(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def platform(request, name):
     """
     Return the hostname
     """
-    getplatform = get_platform()
+    getplatform = services.get_platform()
     hostname = getplatform['hostname']
     osname = getplatform['osname']
     kernel = getplatform['kernel']
@@ -87,12 +120,12 @@ def platform(request, name):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getcpus(request, name):
     """
     Return the CPU number and type/model
     """
-    cpus = get_cpus()
+    cpus = services.get_cpus()
     cputype = cpus['type']
     cpucount = cpus['cpus']
     data = {}
@@ -116,13 +149,13 @@ def getcpus(request, name):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def uptime(request):
     """
     Return uptime
     """
     try:
-        up_time = get_uptime()
+        up_time = services.get_uptime()
     except Exception:
         up_time = None
 
@@ -133,13 +166,13 @@ def uptime(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getdisk(request):
     """
     Return the disk usage
     """
     try:
-        diskusage = get_disk()
+        diskusage = services.get_disk()
     except Exception:
         diskusage = None
 
@@ -150,13 +183,13 @@ def getdisk(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getips(request):
     """
     Return the IPs and interfaces
     """
     try:
-        get_ips = get_ipaddress()
+        get_ips = services.get_ipaddress()
     except Exception:
         get_ips = None
 
@@ -167,13 +200,13 @@ def getips(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getusers(request):
     """
     Return online users
     """
     try:
-        online_users = get_users()
+        online_users = services.get_users()
     except Exception:
         online_users = None
 
@@ -184,13 +217,13 @@ def getusers(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getproc(request):
     """
     Return the running processes
     """
     try:
-        processes = get_cpu_usage()
+        processes = services.get_cpu_usage()
         processes = processes['all']
     except Exception:
         processes = None
@@ -202,13 +235,13 @@ def getproc(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def cpuusage(request):
     """
     Return CPU Usage in %
     """
     try:
-        cpu_usage = get_cpu_usage()
+        cpu_usage = services.get_cpu_usage()
 
     except Exception:
         cpu_usage = 0
@@ -231,7 +264,7 @@ def cpuusage(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def memusage(request):
     """
     Return Memory Usage in % and numeric
@@ -240,7 +273,7 @@ def memusage(request):
     datasets_used = []
 
     try:
-        mem_usage = get_mem()
+        mem_usage = services.get_mem()
     except Exception:
         mem_usage = 0
 
@@ -314,7 +347,7 @@ def memusage(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def loadaverage(request):
     """
     Return Load Average numeric
@@ -322,7 +355,7 @@ def loadaverage(request):
     datasets = []
 
     try:
-        load_average = get_load()
+        load_average = services.get_load()
     except Exception:
         load_average = 0
 
@@ -374,7 +407,7 @@ def loadaverage(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def gettraffic(request):
     """
     Return the traffic for the interface
@@ -386,10 +419,10 @@ def gettraffic(request):
     label = "KBps"
 
     try:
-        intf = get_ipaddress()
+        intf = services.get_ipaddress()
         intf = intf['interface'][0]
 
-        traffic = get_traffic(intf)
+        traffic = services.get_traffic(intf)
     except Exception:
         traffic = 0
 
@@ -442,8 +475,10 @@ def gettraffic(request):
         datasets_out_o.append(float(traffic['traffic_out']))
         del datasets_out_o[0]
 
-    dataset_in = (float(((datasets_in_i[1] - datasets_in_i[0]) / 1024) / (time_refresh_net / 1000)))
-    dataset_out = (float(((datasets_out_o[1] - datasets_out_o[0]) / 1024) / (time_refresh_net / 1000)))
+    dataset_in = (
+        float(((datasets_in_i[1] - datasets_in_i[0]) / 1024) / (TIME_JS_REFRESH_NET / 1000)))
+    dataset_out = (
+        float(((datasets_out_o[1] - datasets_out_o[0]) / 1024) / (TIME_JS_REFRESH_NET / 1000)))
 
     if dataset_in > 1024 or dataset_out > 1024:
         dataset_in = (float(dataset_in / 1024))
@@ -497,7 +532,7 @@ def gettraffic(request):
     return response
 
 
-@login_required(login_url='/login/')
+@login_required(login_url=reverse_lazy('login'))
 def getdiskio(request):
     """
     Return the reads and writes for the drive
@@ -508,7 +543,7 @@ def getdiskio(request):
     datasets_out_o = []
 
     try:
-        diskrw = get_disk_rw()
+        diskrw = services.get_disk_rw()
         diskrw = diskrw[0]
     except Exception:
         diskrw = 0
@@ -562,8 +597,10 @@ def getdiskio(request):
         datasets_out_o.append(int(diskrw[2]))
         del datasets_out_o[0]
 
-    dataset_in = (int((datasets_in_i[1] - datasets_in_i[0]) / (time_refresh_net / 1000)))
-    dataset_out = (int((datasets_out_o[1] - datasets_out_o[0]) / (time_refresh_net / 1000)))
+    dataset_in = (
+        int((datasets_in_i[1] - datasets_in_i[0]) / (TIME_JS_REFRESH_NET / 1000)))
+    dataset_out = (
+        int((datasets_out_o[1] - datasets_out_o[0]) / (TIME_JS_REFRESH_NET / 1000)))
 
     if len(datasets_in) <= 9:
         datasets_in.append(dataset_in)

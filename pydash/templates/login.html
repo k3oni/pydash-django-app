@@ -13,7 +13,7 @@
         <h2 class="form-signin-heading">{% trans "Sign In" %}</h2>
         <input type="text" class="form-control" name="username" placeholder="Login" autofocus>
         <input type="password" class="form-control" name="password" placeholder="Password">
-        <input name="next" id="next" type="hidden" value="/main/"><br />
+        <input name="next" id="next" type="hidden" value="{% url 'index' %}"><br />
         <button class="btn btn-lrg btn-success btn-block" type="submit">{% trans "Sign In" %}</button>
     </form>
 {% endblock %}
