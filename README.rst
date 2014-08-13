@@ -11,6 +11,15 @@ Requirements:
 
 -  Django >= 1.5
 
+
+`View Demo <http://pydash.hostechs.com/>`_
+
+::
+
+     user: admin
+     pass: admin
+
+
 Installation
 ============
 
@@ -105,7 +114,37 @@ specific data:
     /info/getcpus/cpucount/ - Number of CPU cores
     /info/getcpu
 
+OS Support
+==========
+
+pyDash was tested and runs under the following OSes:
+
+-  Centos
+-  Fedora
+-  Ubuntu
+-  Debian
+-  Raspbian
+-  Pidora
+-  Arch Linux
+
+It might work under others, but it hasn’t been tested yet.
+
+Contributors
+============
+
+George Zografos - george.p.zografos@gmail.com
+
+License
+=======
+
+`MIT <https://github.com/k3oni/pydash-django-app/blob/master/LICENSE.md>`_
+
 Issues
 ======
 
 Report any issues/bugs at `https://github.com/k3oni/pydash-django-app <https://github.com/k3oni/pydash-django-app>`_
+
+Credits
+=======
+
+`Dashboard Template <http://www.egrappler.com/templatevamp-free-twitter-bootstrap-admin-template/>`_, `Bootstrap <http://getbootstrap.com/>`_, `Font Awesome <http://fontawesome.io/>`_
