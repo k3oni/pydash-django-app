@@ -24,7 +24,11 @@ __[View Demo](http://pydash.hostechs.com/)__
 Installation
 ============
 
-Clone the repository to your pc and copy the pydash folder to your django application.
+Clone the repository to your pc and, assuming that ``pip`` is installed, run the
+following commands:
+
+* `` python setup.py sdist ``
+* `` pip install dist/django-pydash-app-*.tar.gz ``
 
 Make sure that ``django.contrib.auth`` is installed and working.
 
