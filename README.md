@@ -133,6 +133,10 @@ License
 **[MIT](https://github.com/k3oni/pydash-django-app/blob/master/LICENSE.md)**
 
 
+Contributors
+============
+George Zografos - george.p.zografos@gmail.com
+
 
 Credits
 =======
