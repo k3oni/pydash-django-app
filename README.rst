@@ -5,9 +5,13 @@ A reusable django app for monitoring your linux server.
 
 Supported Python versions:
 
+::
+
 -  Python 2.x
 
 Requirements:
+
+::
 
 -  Django >= 1.5
 
