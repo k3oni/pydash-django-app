@@ -7,13 +7,13 @@ Supported Python versions:
 
 ::
 
--  Python 2.x
+    Python 2.x
 
 Requirements:
 
 ::
 
--  Django >= 1.5
+    Django >= 1.5
 
 
 `View Demo <http://pydash.hostechs.com/>`_
