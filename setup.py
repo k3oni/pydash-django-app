@@ -19,7 +19,7 @@ setup(
     author_email='michaelneagu@gmail.com',
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Environment :: Web Environment'
+        'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
