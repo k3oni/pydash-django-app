@@ -128,6 +128,8 @@
                     <div>
         		<span class="memf">{% trans "Free" %}</span>
         		<span class="memu">{% trans "Used" %}</span>
+                <span class="memb">{% trans "Buffers" %}</span>
+                <span class="memc">{% trans "Cached" %}</span>
     		    </div>
                 </div>
                 <!-- /widget-content -->
@@ -340,7 +342,7 @@ var mem_ctx = $("#memoryChart").get(0).getContext("2d");
             $.getJSON(pydashUrls['memusage'], function(data) {
                 var options = {
                     animation : false,
-                    pointDotRadius : 2,
+                    pointDotRadius : 4,
                     scaleLabel : "<%=value%> Mb"
                 }
                 memChart.Line(data, options);

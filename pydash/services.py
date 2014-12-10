@@ -211,17 +211,23 @@ def get_mem():
     """
     try:
         pipe = os.popen(
-            "free -tmo | " + "grep 'Mem' | " + "awk '{print $2,$4}'")
+            "free -tmo | " + "grep 'Mem' | " + "awk '{print $2,$4,$6,$7}'")
         data = pipe.read().strip().split()
         pipe.close()
 
         allmem = int(data[0])
         freemem = int(data[1])
+        buffers = int(data[2])
+        cachedmem = int(data[3])
+
+        # Memory in buffers + cached is actually available, so we count it
+        # as free. See http://www.linuxatemyram.com/ for details
+        freemem += buffers + cachedmem
 
         percent = (100 - ((freemem * 100) / allmem))
         usage = (allmem - freemem)
 
-        mem_usage = {'usage': usage, 'free': freemem, 'percent': percent}
+        mem_usage = {'usage': usage, 'buffers': buffers, 'cached': cachedmem, 'free': freemem, 'percent': percent}
 
         data = mem_usage
 
