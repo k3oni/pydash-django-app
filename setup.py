@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-pydash-app',
-    version='1.4.4',
+    version='1.4.5',
     packages=['pydash'],
     include_package_data=True,
     license='MIT',
@@ -18,7 +18,7 @@ setup(
     author='Florian N.',
     author_email='michaelneagu@gmail.com',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: System Administrators',
