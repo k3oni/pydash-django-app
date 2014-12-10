@@ -1,4 +1,4 @@
-pyDash - v1.4.4
+pyDash - v1.4.5
 ===============
 
 A reusable django app for monitoring your linux server.
