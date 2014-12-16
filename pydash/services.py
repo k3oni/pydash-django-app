@@ -18,7 +18,7 @@ def get_uptime():
             uptime_time = str(timedelta(seconds=uptime_seconds))
             data = uptime_time.split('.', 1)[0]
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -51,7 +51,7 @@ def get_ipaddress():
 
         data = ips
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -75,7 +75,7 @@ def get_cpus():
 
         data = {'cpus': cpus, 'type': data}
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -95,7 +95,7 @@ def get_users():
         else:
             data = [i.split(None, 3) for i in data]
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -126,7 +126,7 @@ def get_traffic(request):
 
         data = all_traffic
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -145,7 +145,7 @@ def get_platform():
 
         data = {'osname': osname, 'hostname': uname[1], 'kernel': uname[2]}
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -163,7 +163,7 @@ def get_disk():
 
         data = [i.split(None, 6) for i in data]
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -199,7 +199,7 @@ def get_disk_rw():
 
         data = rws
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -231,7 +231,7 @@ def get_mem():
 
         data = mem_usage
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -264,7 +264,7 @@ def get_cpu_usage():
 
         data = cpu_used
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -276,7 +276,7 @@ def get_load():
     """
     try:
         data = os.getloadavg()[0]
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data
@@ -295,7 +295,7 @@ def get_netstat():
 
         data = [i.split(None, 4) for i in data]
 
-    except Exception, err:
+    except Exception as err:
         data = str(err)
 
     return data

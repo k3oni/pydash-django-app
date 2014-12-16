@@ -280,7 +280,7 @@ def memusage(request):
         mem_usage = 0
 
     try:
-        cookies = request._cookies['memory_usage']
+        cookies = request.COOKIES['memory_usage']
     except Exception:
         cookies = None
 
@@ -399,7 +399,7 @@ def loadaverage(request):
         load_average = 0
 
     try:
-        cookies = request._cookies['load_average']
+        cookies = request.COOKIES['load_average']
     except Exception:
         cookies = None
 
@@ -466,7 +466,7 @@ def gettraffic(request):
         traffic = 0
 
     try:
-        cookies = request._cookies['traffic']
+        cookies = request.COOKIES['traffic']
     except Exception:
         cookies = None
 
@@ -588,7 +588,7 @@ def getdiskio(request):
         diskrw = 0
 
     try:
-        cookies = request._cookies['diskrw']
+        cookies = request.COOKIES['diskrw']
     except Exception:
         cookies = None
 

@@ -1,4 +1,4 @@
-pyDash - v1.4.5
+pyDash - v1.4.6
 ===============
 
 A reusable django app for monitoring your linux server.
@@ -8,6 +8,7 @@ Supported Python versions:
 ::
 
     Python 2.x
+    Python 3.x
 
 Requirements:
 
