@@ -17,14 +17,6 @@ Requirements:
     Django >= 1.5
 
 
-`View Demo <http://pydash.hostechs.com/>`_
-
-::
-
-     user: admin
-     pass: admin
-
-
 Installation
 ============
 
