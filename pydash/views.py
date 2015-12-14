@@ -47,7 +47,7 @@ def get_pydash_urls():
         # E.g. reverse('platform', args=[0])[:-2] -> /info/platform/
         #      reverse('getcpus', args[0])[:-2] -> /info/getcpus/
             results[name] = reverse(name, args=[0])[:-2]
-    return results
+    return json.dumps(results)
 
 
 @login_required(login_url=reverse_lazy('login'))
