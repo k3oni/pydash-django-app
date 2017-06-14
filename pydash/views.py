@@ -47,7 +47,7 @@ def get_pydash_urls():
         # E.g. reverse('platform', args=[0])[:-2] -> /info/platform/
         #      reverse('getcpus', args[0])[:-2] -> /info/getcpus/
             results[name] = reverse(name, args=[0])[:-2]
-    return results
+    return json.dumps(results)
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -271,6 +271,8 @@ def memusage(request):
     """
     datasets_free = []
     datasets_used = []
+    datasets_buffers = []
+    datasets_cached = []
 
     try:
         mem_usage = services.get_mem()
@@ -278,17 +280,21 @@ def memusage(request):
         mem_usage = 0
 
     try:
-        cookies = request._cookies['memory_usage']
+        cookies = request.COOKIES['memory_usage']
     except Exception:
         cookies = None
 
     if not cookies:
         datasets_free.append(0)
         datasets_used.append(0)
+        datasets_buffers.append(0)
+        datasets_cached.append(0)
     else:
         datasets = json.loads(cookies)
         datasets_free = datasets[0]
         datasets_used = datasets[1]
+        atasets_buffers = datasets[2]
+        datasets_cached = datasets[3]
 
     if len(datasets_free) > 10:
         while datasets_free:
@@ -300,6 +306,16 @@ def memusage(request):
             del datasets_used[0]
             if len(datasets_used) == 10:
                 break
+    if len(datasets_buffers) > 10:
+        while datasets_buffers:
+            del datasets_buffers[0]
+            if len(datasets_buffers) == 10:
+                break
+    if len(datasets_cached) > 10:
+        while datasets_cached:
+            del datasets_cached[0]
+            if len(datasets_cached) == 10:
+                break
     if len(datasets_free) <= 9:
         datasets_free.append(int(mem_usage['free']))
     if len(datasets_free) == 10:
@@ -310,7 +326,16 @@ def memusage(request):
     if len(datasets_used) == 10:
         datasets_used.append(int(mem_usage['usage']))
         del datasets_used[0]
-
+    if len(datasets_buffers) <= 9:
+        datasets_buffers.append(int(mem_usage['buffers']))
+    if len(datasets_buffers) == 10:
+        datasets_buffers.append(int(mem_usage['buffers']))
+        del datasets_buffers[0]
+    if len(datasets_cached) <= 9:
+        datasets_cached.append(int(mem_usage['cached']))
+    if len(datasets_cached) == 10:
+        datasets_cached.append(int(mem_usage['cached']))
+        del datasets_cached[0]
     # Some fix division by 0 Chart.js
     if len(datasets_free) == 10:
         if sum(datasets_free) == 0:
@@ -322,9 +347,9 @@ def memusage(request):
         'labels': [""] * 10,
         'datasets': [
             {
-                "fillColor": "rgba(249,134,33,0.5)",
-                "strokeColor": "rgba(249,134,33,1)",
-                "pointColor": "rgba(249,134,33,1)",
+                "fillColor": "rgba(247,70,74,0.5)",
+                "strokeColor": "rgba(247,70,74,1)",
+                "pointColor": "rgba(247,70,74,1)",
                 "pointStrokeColor": "#fff",
                 "data": datasets_used
             },
@@ -334,11 +359,25 @@ def memusage(request):
                 "pointColor": "rgba(43,214,66,1)",
                 "pointStrokeColor": "#fff",
                 "data": datasets_free
-            }
+            },
+            {
+                "fillColor": "rgba(0,154,205,0.5)",
+                "strokeColor": "rgba(0,154,205,1)",
+                "pointColor": "rgba(0,154,205,1)",
+                "pointStrokeColor": "#fff",
+                "data": datasets_buffers
+            },
+            {
+                "fillColor": "rgba(255,185,15,0.5)",
+                "strokeColor": "rgba(255,185,15,1)",
+                "pointColor": "rgba(265,185,15,1)",
+                "pointStrokeColor": "#fff",
+                "data": datasets_cached
+            } 
         ]
     }
 
-    cookie_memory = [datasets_free, datasets_used]
+    cookie_memory = [datasets_free, datasets_used, datasets_buffers, datasets_cached]
     data = json.dumps(memory)
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
@@ -360,7 +399,7 @@ def loadaverage(request):
         load_average = 0
 
     try:
-        cookies = request._cookies['load_average']
+        cookies = request.COOKIES['load_average']
     except Exception:
         cookies = None
 
@@ -427,7 +466,7 @@ def gettraffic(request):
         traffic = 0
 
     try:
-        cookies = request._cookies['traffic']
+        cookies = request.COOKIES['traffic']
     except Exception:
         cookies = None
 
@@ -549,7 +588,7 @@ def getdiskio(request):
         diskrw = 0
 
     try:
-        cookies = request._cookies['diskrw']
+        cookies = request.COOKIES['diskrw']
     except Exception:
         cookies = None
 

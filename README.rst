@@ -1,23 +1,20 @@
-pyDash - v1.4.4
+pyDash - v1.4.6
 ===============
 
 A reusable django app for monitoring your linux server.
 
 Supported Python versions:
 
--  Python 2.x
+::
+
+    Python 2.x
+    Python 3.x
 
 Requirements:
 
--  Django >= 1.5
-
-
-`View Demo <http://pydash.hostechs.com/>`_
-
 ::
 
-     user: admin
-     pass: admin
+    Django >= 1.5
 
 
 Installation
@@ -112,12 +109,27 @@ specific data:
     /info/platform/osname/ - OS Name
     /info/platform/kernel/ - Kernel
     /info/getcpus/cpucount/ - Number of CPU cores
-    /info/getcpu
+    /info/getcpus/cputype/ - Type/Name of CPU
+    /info/memory/ - Memory Usage
+    /info/cpuusage/ - CPU Usage in percentage(%), free and used
+    /info/getdisk/ - Disk Usage
+    /info/getusers/ - Online Users
+    /info/getips/ - IP Addresses
+    /info/gettraffic/ - Internet Traffic
+    /info/getdiskio/ - Disk Reads/Writes
+    /info/proc/ - Running Processes
+    /info/loadaverage/ - Load Average
+    /info/getnetstat/ - Netstat
+    
+To see the format of the JSON returned datasets or data you can access any of the URLs from your browser 
+as http://youpydaship/url , ex. http://demo.pydash.net/info/uptime/ .
 
 OS Support
 ==========
 
 pyDash was tested and runs under the following OSes:
+
+::
 
 -  Centos
 -  Fedora
